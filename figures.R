@@ -29,13 +29,13 @@ themegz <- theme_bw() +
               theme(plot.margin = unit(c(0.5, 0.5, 0.5, 0.5), "cm"))
 
 # changing names for site 
-grazing <- grazing %>% 
+grazing2 <- grazing %>% 
               mutate(site = case_when(site == "1" ~ "Site A",
                                       site == "2" ~ "Site B"))      
 str(grazing)
 
 ## Species richness vs. grazing ---
-(rich_plot <- ggplot(grazing, aes(x = grazing, y = richness)) +
+(rich_plot <- ggplot(grazing2, aes(x = grazing, y = richness)) +
                 geom_boxplot(aes(fill = grazing), alpha = 0.8) +
                 facet_wrap(~site) +
                 ylab("Species richness") +
@@ -46,7 +46,7 @@ str(grazing)
 ggsave("Figures/richness_grazing.png", plot = rich_plot, height = 5, width = 6, units = "in")
 
 ## Average height vs. grazing ---
-(avg_plot <- ggplot(grazing, aes(x = grazing, y = avg_height)) +
+(avg_plot <- ggplot(grazing2, aes(x = grazing, y = avg_height)) +
                 geom_boxplot(aes(fill = grazing), alpha = 0.8) +
                 facet_wrap(~site) +
                 ylab("Mean height (cm)") +
@@ -57,7 +57,7 @@ ggsave("Figures/richness_grazing.png", plot = rich_plot, height = 5, width = 6, 
 ggsave("Figures/avgheight_grazing.png", plot = avg_plot, height = 5, width = 6, units = "in")
 
 ## Maximum height vs. grazing ---
-(tall_plot <- ggplot(grazing, aes(x = grazing, y = tallest)) +
+(tall_plot <- ggplot(grazing2, aes(x = grazing, y = tallest)) +
                 geom_boxplot(aes(fill = grazing), alpha = 0.8) +
                 facet_wrap(~site) +
                 ylab("Maximum height (cm)") +

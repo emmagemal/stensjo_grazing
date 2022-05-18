@@ -163,7 +163,7 @@ anova(ano1)
 
   # grazing: p = 0.001549 (significant effect of grazing)
   # site: p = 3.889e-6 (significant effect of site)
-  # interaction: p = 0.4607 
+  # interaction: p = 0.4607 (not significant)
 
 
 ## Average vegetation height (total) ---
@@ -194,6 +194,17 @@ anova(ano2)
   # interaction: p = 0.02526 (grazing's effect on height differs significantly between sites)
     # can see from plots that site 1 = more of a difference between grazed v ungrazed, while
       # site 2 = closer in height between grazed and ungrazed sides 
+
+# testing difference within sites
+grazedA <- grazing %>%  
+              filter(site == "1")
+grazedB <- grazing %>% 
+              filter(site == "2")
+
+t.test(avg_height ~ grazing, data = grazedA)   # significant 
+                                                  # p = 3.428e-5, t = -4.9597, df = 26.892
+t.test(avg_height ~ grazing, data = grazedB)   # not significant 
+                                                  # p = 0.09416, t = -1.7215, df = 34.352 
 
 
 ## Relationship between average height and richness ---

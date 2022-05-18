@@ -103,6 +103,9 @@ means_site <- means %>%
                 summarize(avg.rich = mean(avg.rich),
                           avg.height = mean(avg.height),
                           avg.tallest = mean(avg.tallest),
+                          sd.rich = mean(sd.rich),
+                          sd.height = mean(sd.height),
+                          sd.tallest = mean(sd.tallest),
                           se.rich = mean((sd.rich/n)),
                           se.height = mean((sd.height/n)),
                           se.tallest = mean((sd.tallest/n)))
@@ -113,9 +116,23 @@ means_total <- means %>%
                   summarize(avg.rich = mean(avg.rich),
                             avg.height = mean(avg.height),
                             avg.tallest = mean(avg.tallest),
+                            sd.rich = mean(sd.rich),
+                            sd.height = mean(sd.height),
+                            sd.tallest = mean(sd.tallest),
                             se.rich = mean((sd.rich/N)),
                             se.height = mean((sd.height/N)),
                             se.tallest = mean((sd.tallest/N)))
+
+# adding coefficient of variation
+means_site <- means_site %>% 
+                mutate(coef.rich = (sd.rich/avg.rich),
+                       coef.height = (sd.height/avg.height),
+                       coef.tall = (sd.tallest/avg.tallest))
+
+means_total <- means_total %>% 
+                  mutate(coef.rich = (sd.rich/avg.rich),
+                         coef.height = (sd.height/avg.height),
+                         coef.tall = (sd.tallest/avg.tallest))
 
 
 ### Statistics ----

@@ -49,7 +49,7 @@ ggsave("Figures/richness_grazing.png", plot = rich_plot, height = 5, width = 6, 
 (avg_plot <- ggplot(grazing, aes(x = grazing, y = avg_height)) +
                 geom_boxplot(aes(fill = grazing), alpha = 0.8) +
                 facet_wrap(~site) +
-                ylab("Mean vegetation height (cm)") +
+                ylab("Mean height (cm)") +
                 xlab("Grazing amount") +
                 themegz +
                 scale_fill_manual(values = c("#FFAD00", "#BA7BA1")))
@@ -60,7 +60,7 @@ ggsave("Figures/avgheight_grazing.png", plot = avg_plot, height = 5, width = 6, 
 (tall_plot <- ggplot(grazing, aes(x = grazing, y = tallest)) +
                 geom_boxplot(aes(fill = grazing), alpha = 0.8) +
                 facet_wrap(~site) +
-                ylab("Maximum vegetation height (cm)") +
+                ylab("Maximum height (cm)") +
                 xlab("Grazing amount") +
                 themegz +
                 scale_fill_manual(values = c("#FFAD00", "#BA7BA1")))

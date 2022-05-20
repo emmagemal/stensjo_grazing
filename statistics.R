@@ -5,6 +5,8 @@
 ## Library ----
 library(tidyverse)
 library(ggpubr)
+library(lme4)
+library(car)
 
 ## Loading the data ----
 grazing <- read.csv("Data/full_data.csv", header = T)
@@ -14,8 +16,9 @@ summary(grazing)
 
 ### Data manipulation ----
 grazing <- grazing %>% 
-              mutate(site = as.character(site),
-                     plot = as.factor(plot))
+              mutate(site = as.factor(site),
+                     plot = as.factor(plot),
+                     grazing = as.factor(grazing))
 str(grazing)
 
 
@@ -158,6 +161,7 @@ shapiro.test(b$richness)   # p < 0.05 = not normal
 wilcox.test(richness ~ grazing, data = grazing)   # get a warning
   # p = 0.0045, W = 508
 
+# checking similarity of statistical results with a parametric test 
 t.test(richness ~ grazing, data = grazing)
   # significant differences in richness (more species in ungrazed forest)
   # p = 0.005124, t = -2.8811, df = 77.402
@@ -165,27 +169,47 @@ t.test(richness ~ grazing, data = grazing)
 
 
 ## Species richness (site) ---
+wilcox.test(richness ~ site, data = grazing)   # get a warning
+  # p = 2.345e-5, W = 365.5
+
 t.test(richness ~ site, data = grazing)
   # significant differences between sites (fewer species in site 1 than site 2)
   # p = 1.317e-5, t = -4.7054, df = 66.851
   # site 1 mean = 5.65, site 2 mean = 8.00
 
-# despite not being normal, still doing an ANOVA 
+# doing an ANOVA with a GLM (poisson due to count data)
 ano1 <- lm(richness ~ grazing*site, data = grazing)
-summary(ano1)
-anova(ano1)
+glm1 <- glm(richness ~ grazing*site, family = "poisson", data = grazing)
+null1 <- glm(richness ~ 1, family = "poisson", data = grazing)
+
+AIC(glm1, null1)  # better than null 
+
+summary(ano1) # comparing to lm
+summary(glm1)
+anova(ano1)   
+Anova(glm1)
   # no significant interaction = site does not affect grazing's effect on richness 
   # means that grazed vs ungrazed relationship doesn't differ between sites, it's still more
     # species in ungrazed than in grazed for both site 1 and 2
 
-  # grazing: p = 0.001549 (significant effect of grazing)
-  # site: p = 3.889e-6 (significant effect of site)
-  # interaction: p = 0.4607 (not significant)
+  # grazing: p = 0.007902 (significant effect of grazing)
+  # site: p = 5.51e-5 (significant effect of site)
+  # interaction: p = 0.28022 (not significant)
 
 
 ## Average vegetation height (total) ---
 ggqqplot(grazing$avg_height)
 shapiro.test(grazing$avg_height)   # p < 0.05 = not normal 
+
+grazing <- grazing %>% 
+              mutate(avg_height_log = log(avg_height))
+ggqqplot(grazing$avg_height_log)
+shapiro.test(grazing$avg_height_log)   # p < 0.05 = not normal 
+
+grazing <- grazing %>% 
+              mutate(avg_height_sqrt = sqrt(avg_height))
+ggqqplot(grazing$avg_height_sqrt)
+shapiro.test(grazing$avg_height_sqrt)   # p < 0.05 = not normal 
 
 wilcox.test(avg_height ~ grazing, data = grazing)   # warning message
   # p = 4.858e-5, W = 379
@@ -196,19 +220,29 @@ t.test(avg_height ~ grazing, data = grazing)
   # grazed mean = 3.8125, ungrazed mean = 7.9750
 
 ## Average vegetation height (site) ---
+wilcox.test(avg_height ~ site, data = grazing)   # warning message
+  # p = 0.5396, W = 736
+
 t.test(avg_height ~ site, data = grazing)
   # no significant difference in vegetation height between sites 
   # p = 0.8733, t = -0.1599, df = 74.828
   # site 1 mean = 5.8125, site 2 mean = 5.9750 
 
-ano2 <- lm(avg_height ~ grazing*site, data = grazing)
-summary(ano2)
-anova(ano2)
+# ANOVA with a GLM 
+hist(grazing$avg_height)   # very skewed, use a Gamma distribution 
+
+glm2 <- glm(avg_height ~ grazing*site, family = "Gamma", data = grazing)
+null2 <- glm(avg_height ~ 1, family = "Gamma", data = grazing)
+
+AIC(glm2, null2)  # better than null 
+
+summary(glm2)
+Anova(glm2)
   # significant interaction, so the effect of grazing on height differs between sites 
   
-  # grazing: p = 1.051e-5 (significant effect of grazing on vegetation height)
-  # site: p = 0.85428 (no effect of site on vegetation height)
-  # interaction: p = 0.02526 (grazing's effect on height differs significantly between sites)
+  # grazing: p = 2.485e-6 (significant effect of grazing on vegetation height)
+  # site: p = 0.8668 (no effect of site on vegetation height)
+  # interaction: p = 0.004267 (grazing's effect on height differs significantly between sites)
     # can see from plots that site 1 = more of a difference between grazed v ungrazed, while
       # site 2 = closer in height between grazed and ungrazed sides 
 
@@ -218,13 +252,14 @@ grazedA <- grazing %>%
 grazedB <- grazing %>% 
               filter(site == "2")
 
-t.test(avg_height ~ grazing, data = grazedA)   # significant 
-                                                  # p = 3.428e-5, t = -4.9597, df = 26.892
-t.test(avg_height ~ grazing, data = grazedB)   # not significant 
-                                                  # p = 0.09416, t = -1.7215, df = 34.352 
+wilcox.test(avg_height ~ grazing, data = grazedA)   # significant 
+                                                      # p = 2.365-5, W = 44
+wilcox.test(avg_height ~ grazing, data = grazedB)   # not significant 
+                                                      # p = 0.128, W = 143.5 
 
 
-## Relationship between average height and richness ---
+
+## Relationship between average height and richness ----
 # not sure if it makes much ecological sense, but height may be taller for greater richness? 
 lm1 <- lm(richness ~ avg_height, data = grazing)
 summary(lm1)
@@ -239,6 +274,18 @@ lm4 <- lm(richness ~ avg_height*site, data = grazing)
 summary(lm4)
 
 AIC(lm1, lm2, lm3, lm4)  # lm4 = lowest AIC but more complex (lm2 is 2nd best I'd say)
+
+# by grazing
+ggplot(grazing, aes(x = avg_height, y = richness)) +
+  geom_smooth(method = "lm") +
+  geom_point() +
+  facet_wrap(~grazing, scales = "free_x")
+
+# by site 
+ggplot(grazing, aes(x = avg_height, y = richness)) +
+  geom_smooth(method = "lm") +
+  geom_point() +
+  facet_wrap(~site, scales = "free_x")
 
 
 ## Tallest vegetation height (total) ---

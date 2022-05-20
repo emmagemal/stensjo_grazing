@@ -39,7 +39,7 @@ str(grazing)
                 geom_boxplot(aes(fill = grazing), alpha = 0.8) +
                 facet_wrap(~site) +
                 ylab("Species richness") +
-                xlab("Grazing amount") +
+                xlab("Grazing presence") +
                 themegz +
                 scale_fill_manual(values = c("#FFAD00", "#BA7BA1")))
 
@@ -50,7 +50,7 @@ ggsave("Figures/richness_grazing.png", plot = rich_plot, height = 5, width = 6, 
                 geom_boxplot(aes(fill = grazing), alpha = 0.8) +
                 facet_wrap(~site) +
                 ylab("Mean height (cm)") +
-                xlab("Grazing amount") +
+                xlab("Grazing presence") +
                 themegz +
                 scale_fill_manual(values = c("#FFAD00", "#BA7BA1")))
 
@@ -61,7 +61,7 @@ ggsave("Figures/avgheight_grazing.png", plot = avg_plot, height = 5, width = 6, 
                 geom_boxplot(aes(fill = grazing), alpha = 0.8) +
                 facet_wrap(~site) +
                 ylab("Maximum height (cm)") +
-                xlab("Grazing amount") +
+                xlab("Grazing presence") +
                 themegz +
                 scale_fill_manual(values = c("#FFAD00", "#BA7BA1")))
 

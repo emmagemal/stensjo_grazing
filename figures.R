@@ -36,34 +36,34 @@ str(grazing)
 
 ## Species richness vs. grazing ---
 (rich_plot <- ggplot(grazing2, aes(x = grazing, y = richness)) +
-                geom_boxplot(aes(fill = grazing), alpha = 0.8) +
+                geom_boxplot(aes(fill = grazing), outlier.shape = 21, alpha = 0.8) +
                 facet_wrap(~site) +
                 ylab("Species richness") +
                 xlab("Grazing presence") +
                 themegz +
                 scale_fill_manual(values = c("#FFAD00", "#BA7BA1")))
 
-ggsave("Figures/richness_grazing.png", plot = rich_plot, height = 5, width = 6, units = "in")
+ggsave("Figures/richness_grazing.png", plot = rich_plot, height = 3.5, width = 3.5, units = "in")
 
 ## Average height vs. grazing ---
 (avg_plot <- ggplot(grazing2, aes(x = grazing, y = avg_height)) +
-                geom_boxplot(aes(fill = grazing), alpha = 0.8) +
+                geom_boxplot(aes(fill = grazing), outlier.shape = 21, alpha = 0.8) +
                 facet_wrap(~site) +
                 ylab("Mean height (cm)") +
                 xlab("Grazing presence") +
                 themegz +
                 scale_fill_manual(values = c("#FFAD00", "#BA7BA1")))
 
-ggsave("Figures/avgheight_grazing.png", plot = avg_plot, height = 5, width = 6, units = "in")
+ggsave("Figures/avgheight_grazing.png", plot = avg_plot, height = 3.5, width = 3.5, units = "in")
 
 ## Maximum height vs. grazing ---
 (tall_plot <- ggplot(grazing2, aes(x = grazing, y = tallest)) +
-                geom_boxplot(aes(fill = grazing), alpha = 0.8) +
+                geom_boxplot(aes(fill = grazing), outlier.shape = 21, alpha = 0.8) +
                 facet_wrap(~site) +
                 ylab("Maximum height (cm)") +
                 xlab("Grazing presence") +
                 themegz +
                 scale_fill_manual(values = c("#FFAD00", "#BA7BA1")))
 
-ggsave("Figures/maxheight_grazing.png", plot = tall_plot, height = 5, width = 6, units = "in")
+ggsave("Figures/maxheight_grazing.png", plot = tall_plot, height = 4, width = 4.5, units = "in")
 

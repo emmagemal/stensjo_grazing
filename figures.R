@@ -30,8 +30,8 @@ themegz <- theme_bw() +
 
 # changing names for site 
 grazing2 <- grazing %>% 
-              mutate(site = case_when(site == "1" ~ "Site A",
-                                      site == "2" ~ "Site B"))      
+              mutate(site = case_when(site == "2" ~ "Site A",
+                                      site == "1" ~ "Site B"))      
 str(grazing)
 
 ## Species richness vs. grazing ---

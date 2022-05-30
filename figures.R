@@ -68,7 +68,7 @@ means2 <- means1 %>%
                   ylab("Species richness") +
                   xlab("Grazing presence") +
                   themegz +
-                  scale_fill_manual(values = c("#FFAD00", "#BA7BA1")))
+                  scale_fill_manual(values = c("#FFAD00", "#F05C00")))
 
 ggsave("Figures/richness_grazing.png", plot = rich_plot, height = 3.5, width = 3.5, units = "in")
 ggsave("Figures/richness_overall.png", plot = rich_plot2, height = 3.5, width = 3.5, units = "in")
@@ -95,10 +95,10 @@ ggsave("Figures/richness_overall.png", plot = rich_plot2, height = 3.5, width = 
                 xlab("Numbers of years grazed") +
                 themegz +
                 theme(legend.position = "right") +
-                scale_color_manual(values = c("#FFAD00", "#BA7BA1"),
+                scale_color_manual(values = c("#FFAD00", "#F05C00"),
                                    name = "Grazing presence",
                                    labels = c("Grazed", "Ungrazed")) +
-                scale_fill_manual(values = c("#FFAD00", "#BA7BA1"),
+                scale_fill_manual(values = c("#FFAD00", "#F05C00"),
                                   name = "Grazing presence",
                                   labels = c("Grazed", "Ungrazed")))
 

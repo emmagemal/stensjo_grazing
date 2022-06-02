@@ -15,3 +15,8 @@ The data collected and used for this project and all of its associated statistic
 The R scripts can be found [here](https://github.com/emmagemal/stensjo_grazing/tree/main/Scripts).
 
 The figures produced and used in the project report and associated poster can be found [here](https://github.com/emmagemal/stensjo_grazing/tree/main/Figures).
+
+****
+
+#### Below is the associated poster used to present the study:
+![alt text](https://github.com/emmagemal/stensjo_grazing/blob/main/poster.jpg)

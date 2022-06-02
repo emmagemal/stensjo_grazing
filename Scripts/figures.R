@@ -103,7 +103,7 @@ ggsave("Figures/richness_overall.png", plot = rich_plot2, height = 3.5, width = 
                                   labels = c("Grazed", "Ungrazed")))
 
 ggsave("Figures/avgheight_grazing.png", plot = avg_plot, height = 3.5, width = 3.5, units = "in")
-ggsave("Figures/avgheight_barplot.png", plot = avg_plot2, height = 4, width = 5, units = "in")
+ggsave("Figures/avgheight_barplot.png", plot = avg_plot2, height = 3, width = 4, units = "in")
 
 ## Maximum height vs. grazing ---
 (tall_plot <- ggplot(grazing2, aes(x = grazing, y = tallest)) +
